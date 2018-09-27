@@ -1,6 +1,6 @@
 # Semântica Formal
 
-Repositorio destinado para listas de exercícios de Haskell
+Repositorio destinado para as listas de exercícios de Haskell
 
 Compilação:
 

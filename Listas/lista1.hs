@@ -1,5 +1,5 @@
 --
--- Lista 1 de exercício de Haskell 
+-- Lista 1 de exercícios de Haskell 
 --
 
 -- Exercício 1: Escreva a função osQuatroSaoIguais que possui tipo

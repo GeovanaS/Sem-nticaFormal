@@ -1,7 +1,7 @@
-﻿#Semântica Formal
+# Semântica Formal
 
-Repositorio destinado para listas de exercícios de Haskell
+Repositorio destinado para as listas de exercícios de Haskell
 
 Compilação:
 
-ghci exemplo.hs
+    ghci exemplo.hs

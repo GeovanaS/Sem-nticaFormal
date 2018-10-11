@@ -18,3 +18,7 @@ produtoLista(x:xS) = x * produtoLista xS
 andLista :: [Bool] -> Bool
 andLista[] = True
 andLista(x:xS) = x && andLista xS
+
+concatLista :: [[Int]] -> [Int]
+concatLista[] = []
+concatLista(x:xS) = x ++ concatLista xS

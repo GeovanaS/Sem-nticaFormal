@@ -14,3 +14,7 @@ produtoLista :: [Int] -> Int
 produtoLista [] = error "lista vazia"
 produtoLista[x] = x
 produtoLista(x:xS) = x * produtoLista xS
+
+andLista :: [Bool] -> Bool
+andLista[] = True
+andLista(x:xS) = x && andLista xS

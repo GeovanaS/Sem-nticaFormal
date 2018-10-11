@@ -23,7 +23,12 @@ andLista :: [Bool] -> Bool
 andLista[] = True
 andLista(x:xS) = x && andLista xS
 
--- Exercicio 5:Implemente a função que transforma uma lista de lista de inteiros em uma lista única de inteiros.
+-- Exercicio 5: Implemente a função que transforma uma lista de lista de inteiros em uma lista única de inteiros.
 concatLista :: [[Int]] -> [Int]
 concatLista[] = []
 concatLista(x:xS) = x ++ concatLista xS
+
+-- Exercicio 6: Implemente a função de inverte a Lista
+inverteLista :: [Int] -> [Int]
+inverteLista [] = []
+inverteLista(x:xS) = inverteLista xS ++ [x]

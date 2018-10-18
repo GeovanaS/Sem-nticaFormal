@@ -29,3 +29,14 @@ arv1 = Nodo 2 (Nodo 3 (Folha 4) (Folha 2)) (Folha 7)
 somaArvore :: Arvore -> Int
 somaArvore (Folha n) = 0
 somaArvore (Nodo n a1 a2) = n + somaArvore a1 + somaArvore a2
+
+
+-- Lista 5
+
+multArvore :: Arvore -> Int
+multArvore (Folha n) = n*2
+multArvore (Nodo n a1 a2) = n*2 * multArvore a1  * multArvore a2
+
+contArv :: Arvore -> Int
+contArv (Folha n) = 0
+contArv (Nodo n a1 a2) = 1 + contArv a1 + contArv a2

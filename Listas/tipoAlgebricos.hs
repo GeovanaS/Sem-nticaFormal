@@ -34,9 +34,9 @@ somaArvore (Nodo n a1 a2) = n + somaArvore a1 + somaArvore a2
 -- Lista 5
 
 multArvore :: Arvore -> Int
-multArvore (Folha n) = n*2
-multArvore (Nodo n a1 a2) = n*2 * multArvore a1  * multArvore a2
+multArvore (Folha n) = n * 2
+multArvore (Nodo n a1 a2) = (n * 2) + multArvore a1  + multArvore a2
 
 contArv :: Arvore -> Int
-contArv (Folha n) = 0
+contArv (Folha n) = 1
 contArv (Nodo n a1 a2) = 1 + contArv a1 + contArv a2

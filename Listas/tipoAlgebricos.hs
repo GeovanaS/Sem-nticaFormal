@@ -28,6 +28,4 @@ arv1 = Nodo 2 (Nodo 3 (Folha 4) (Folha 2)) (Folha 7)
 
 somaArvore :: Arvore -> Int
 somaArvore (Folha n) = 0
-somaArvore (Nodo n a1 a2) = n + somaArvore a1 + 
-
-somaArvore a2
+somaArvore (Nodo n a1 a2) = n + somaArvore a1 + somaArvore a2

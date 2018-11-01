@@ -61,3 +61,17 @@ smallStepE (Soma (Num n1) (Num n2)) = Num(n1+n2)
 smallStepE (Soma (Num n) e) = 
                  Soma(Num n) (smallStepE e)
 smallStepE (Soma e1 e2) = Soma (smallStepE e1) e2
+
+interpretador:: E->E
+interpretador e
+  | final e = e
+  | otherwise =  interpretador(smallStepE e)
+
+--interpretador e = if (final e) then e
+--                    else interpretador (smallStepE e)
+
+
+final :: E->Bool
+final (Num n) = True
+final _= False
+

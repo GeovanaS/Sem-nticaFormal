@@ -17,6 +17,7 @@ bigStepE (Num n) = n
 bigStepE (Soma e1 e2) = (bigStepE e1) + (bigStepE e2)
 bigStepE (Mult e1 e2) = (bigStepE e1) * (bigStepE e2)
 
+
 -- IF B E E
 bigStepE (IF b e1 e2) 
          | bigStepB b = bigStepE e1
@@ -50,3 +51,13 @@ bigStepB (Not b)
 bigStepB (And b1 b2)
         | bigStepB b1 = bigStepB b2
         | otherwise = False
+
+
+-- Small Step
+-- E:= n | E + E | E * E
+
+smallStepE :: E -> E
+smallStepE (Soma (Num n1) (Num n2)) = Num(n1+n2)
+smallStepE (Soma (Num n) e) = 
+                 Soma(Num n) (smallStepE e)
+smallStepE (Soma e1 e2) = Soma (smallStepE e1) e2

@@ -1,4 +1,4 @@
-data E = Num Int | Soma E E| Mult E E | IF B E E
+data E = Num Int | Soma E E| Mult E E | IF B E E 
     deriving(Eq,Show)
 
 -- 3 * (5 + 10)
@@ -16,9 +16,6 @@ bigStepE:: E -> Int
 bigStepE (Num n) = n
 bigStepE (Soma e1 e2) = (bigStepE e1) + (bigStepE e2)
 bigStepE (Mult e1 e2) = (bigStepE e1) * (bigStepE e2)
-
-
--- IF B E E
 bigStepE (IF b e1 e2) 
          | bigStepB b = bigStepE e1
          | otherwise = bigStepE e2

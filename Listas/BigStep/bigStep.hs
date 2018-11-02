@@ -9,7 +9,7 @@ data B = TRUE | FALSE | Eq B B | Leq B B | Not B | And B B | Or B B
      deriving(Eq,Show)
 
 -- Comandos
-data C = SKIP | Atrib Int E | Seq C C | If B C C | While B C
+data C = SKIP | Atrib E E | Seq C C | If B C C | While B C
      deriving(Show)  
 
 -- Semântica de Expressões Aritmeticas
@@ -63,3 +63,29 @@ bigStepB (Leq e1 e2,s) = let(n1,s1) = bigStepB(e1,s);
                                      (n2,s2) = bigStepB(e2,s)
                                      in(n1 <= n2, s)
 
+-- Semântica de Comandos
+bigStepC :: (C,Estado) -> (C,Estado)
+-- SKIP                                     
+bigStepC (SKIP,s) = (SKIP,s)
+-- Atrib
+bigStepC (Atrib (Var x) e1,s) = let(n1,s1) = bigStepE(e1,s)
+                                        in (SKIP, mudaVar s x n1)
+-- Seq
+bigStepC (Seq c1 c2,s) = let (n1,s1) = bigStepC(c1,s)
+                             in let (n2,s2) = bigStepC(c2,s1)
+                             in (SKIP,s)
+-- If
+bigStepC (If b c1 c2,s) = let(b1,s1) = bigStepB(b,s)
+                           in case b1 of 
+                                True -> let(e1,s1) = bigStepC(c1,s)
+                                                     in(SKIP,s1) 
+                                False -> let(e2,s2) = bigStepC(c2,s)
+                                                      in(SKIP,s2)                     
+
+-- While
+bigStepC (While b c,s) = let (b1,s1) = bigStepB(b,s)
+                             in case b1 of 
+                                True -> let(_,s2) = bigStepC(c,s)
+                                           (_,s3) = bigStepC(While b c,s2)
+                                           in(SKIP,s3) 
+                                False -> (SKIP,s) 

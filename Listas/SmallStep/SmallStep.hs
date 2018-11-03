@@ -5,7 +5,7 @@ data E = Num Int | Soma E E | Sub E E | Mult E E | Var String
      deriving(Eq,Show)
 
 -- Expressões Booleanas
-data B = TRUE | FALSE | Eq B B | Leq B B | Not B | And B B | Or B B
+data B = TRUE | FALSE | Eq E E | Leq E E | Not B | And B B | Or B B
      deriving(Eq,Show)
 
 -- Comandos
@@ -89,4 +89,18 @@ smallStepB (Or b1 b2,s) = let(b,s1) = smallStepB(b1,s)
                                        in(Or b b2,s1) 
 
 
+-- Eq
+smallStepB (Eq (Num n1) (Num n2),s) = if (n1==n2) then (TRUE,s) else (FALSE,s)                                     
+
+smallStepB (Eq (Num n1) e2,s) = let(e,s1) = smallStepE(e2,s)
+                                            in(Eq (Num n1) e,s1)
+
+smallStepB (Eq e1 e2,s) = let(n1,s1) = smallStepE(e1,s);
+                                       in(Eq n1 e2, s1)
+
+
+
+-- Semântica de Comandos
+
+-- Atrib
 

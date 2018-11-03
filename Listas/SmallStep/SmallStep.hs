@@ -104,3 +104,34 @@ smallStepB (Eq e1 e2,s) = let(n1,s1) = smallStepE(e1,s);
 
 -- Atrib
 
+-- ATRIB2
+smallStepC (Atrib (Var x) (Num n),s) = let(sf) = (mudaVar s x n)
+                                                 in(SKIP,sf)
+-- ATRIB1
+smallStepC (Atrib (Var x) e1,s) = let(e,s1) = smallStepE(e1,s)
+                                              in(Atrib (Var x) e,s1)
+
+
+-- Seq
+
+-- SEQ2
+smallStepC (Seq SKIP c,s) = (c,s) 
+-- SEQ1                           
+smallStepC (Seq c1 c2,s) = let(c,s1) = smallStepC(c1,s)
+                                       in(Seq c c2,s1)                     
+
+-- If
+
+-- IF3
+smallStepC (If FALSE c1 c2,s) = (c2,s)
+
+-- IF2
+smallStepC (If TRUE c1 c2,s) = (c1,s)
+
+-- IF1
+smallStepC (If b c1 c2,s) = let(b1,s1) = smallStepB(b,s)
+                                                   in(If b1 c1 c2,s1)
+
+-- While
+smallStepC(While b c,s) = (If b (Seq c(While b c)) SKIP,s)
+

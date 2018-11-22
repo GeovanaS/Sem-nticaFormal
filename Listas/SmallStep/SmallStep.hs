@@ -46,14 +46,14 @@ smallStepE(Sub e1 e2,s) = let(e,s1) = smallStepE(e1,s)
                                       in(Sub e e2,s)
 
 
--- Mult
-smallStepE (Mult (Num n1) (Num n2),s) = (Num(n1-n2),s)
+-- Mult3
+smallStepE (Mult (Num n1) (Num n2),s) = (Num(n1*n2),s)
 
--- Sub2
+-- Mult2
 smallStepE (Mult (Num n) e1,s) = let(e,s1) = smallStepE(e1,s)
                                             in(Mult(Num n) e,s)
 
--- Sub1
+-- Mult1
 smallStepE(Mult e1 e2,s) = let(e,s1) = smallStepE(e1,s)
                                       in(Mult e e2,s)
 

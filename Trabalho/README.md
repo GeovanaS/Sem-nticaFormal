@@ -1,4 +1,4 @@
-# Traballho Final 2018/2
+# Trabalho Final 2018/2
   
   Implementação da semântica Small Step
  

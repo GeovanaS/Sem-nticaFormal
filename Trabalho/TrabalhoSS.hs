@@ -149,6 +149,11 @@ cSmallStep (Atrib (Var x) (Num n),s) = (Skip, mudaVar s x n)
 cSmallStep (Atrib (Var x) e,s) = let(en,sn) = aSmallStep(e,s)
                                  in(Atrib (Var x) en,sn)
 
+-- Dupla Atribuição                                 
+cSmallStep (DuplaAtrib  (Var x) (Var y) e1 e2,s) =  cSmallStep(Seq(Atrib (Var x) e1) (Atrib (Var y) e2), s) 
+
+-- Exemplo de entrada
+-- *Main> cSmallStep (DuplaAtrib  (Var "x") (Var "y") (Num 3) (Num 5),[("x",0),("y",0)])
 
 
 interpretC :: (CExp,Estado) -> (CExp,Estado)
@@ -175,10 +180,6 @@ exemplo2 = And (And TRUE (Not FALSE)) (And (Not (Not TRUE)) TRUE)
 
 -- *Main> interpretB (exemplo2,meuEstado)
 -- (TRUE,[("x",3),("y",0),("z",0)])
-
-
--- Dupla Atribuição
-
 
 
 -- Repeat Until

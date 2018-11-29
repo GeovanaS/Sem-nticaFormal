@@ -1,4 +1,3 @@
-
 import Estado
 
 -- Expressões Aritméticas
@@ -151,15 +150,12 @@ cSmallStep (Atrib (Var x) (Num n),s) = (Skip, mudaVar s x n)
 cSmallStep (Atrib (Var x) e,s) = let(en,sn) = aSmallStep(e,s)
                                  in(Atrib (Var x) en,sn)
 
--- DuplaAtrib
-cSmallStep (DuplaAtrib  (Var x) (Var y) e1 e2,s )=  Seq( (Atrib (Var x) e1) (Atrib (Var y) e2) , s) 
+-- Dupla Atribuição
+cSmallStep (DuplaAtrib  (Var x) (Var y) e1 e2,s) =  cSmallStep(Seq(Atrib (Var x) e1) (Atrib (Var y) e2), s) 
 
+-- Exemplo de entrada
+-- *Main> cSmallStep (DuplaAtrib  (Var "x") (Var "y") (Num 3) (Num 5),[("x",0),("y",0)])
 
--- Seq(Atrib (Var x) e1,s) (Atrib (Var y) e2,s),s)
-
--- cSmallStep Atrib( ((Atrib (Var x) e1,s) Atrib(Var y) e1 e2,s) )= 
-
--- Seq1((Atrib1(Var x) e1,s) (Atrib1( Var y) e2,s),s);
 
 interpretC :: (CExp,Estado) -> (CExp,Estado)
 interpretC (c,s) = if isFinalC c then (c,s) else interpretC (cSmallStep (c,s))
@@ -187,7 +183,7 @@ exemplo2 = And (And TRUE (Not FALSE)) (And (Not (Not TRUE)) TRUE)
 -- (TRUE,[("x",3),("y",0),("z",0)])
 
 
--- Dupla Atribuição
-
-
 -- Repeat Until
+
+
+-- For

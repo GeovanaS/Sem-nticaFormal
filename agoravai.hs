@@ -15,6 +15,7 @@ data BExp = TRUE
      | And BExp BExp
      | Or  BExp BExp
      | Ig  AExp AExp
+     | Leq AExp AExp -- utilizada na regra do for
    deriving(Show)
 
 -- Comandos
@@ -24,6 +25,7 @@ data CExp = While BExp CExp
      | Atrib AExp AExp
      | Skip
      | DuplaAtrib AExp AExp AExp AExp
+     | RepeatUntil CExp BExp
    deriving(Show)                
 
 
@@ -112,6 +114,15 @@ bSmallStep (Or TRUE b2,s) = (TRUE,s)
 bSmallStep (Or b1 b2,s)    = let (bn,sn) = bSmallStep (b1,s)
                               in (Or bn b2,sn)
 
+-- Regra auxiliar para o For
+bSmallStep (Leq (Num x) (Num y),s) = let (n1,s1) = (x > y,s)
+                            in case n1 of True -> (TRUE,s) 
+                                          False -> (FALSE,s)
+bSmallStep (Leq (Num x) e2,s) = let (n2,s1) = aSmallStep(e2,s);
+                                in(Leq (Num x) n2, s1)  
+bSmallStep (Leq e1 e2,s) = let (n1,s1) = aSmallStep(e1,s);
+                           in(Leq n1 e2, s1) 
+
 
 interpretB :: (BExp,Estado) -> (BExp,Estado)
 interpretB (b,s) = if isFinalB b then (b,s) else interpretB (bSmallStep (b,s))
@@ -157,6 +168,13 @@ cSmallStep (DuplaAtrib  (Var x) (Var y) e1 e2,s) =  cSmallStep(Seq(Atrib (Var x)
 -- *Main> cSmallStep (DuplaAtrib  (Var "x") (Var "y") (Num 3) (Num 5),[("x",0),("y",0)])
 
 
+-- Repeat Until 
+cSmallStep (RepeatUntil c b,s) =  (Seq c (If b Skip (RepeatUntil c b)),s)
+
+-- For
+cSmallStep (For (Var x) e1 e2 c,s) =  cSmallStep(Seq(Atrib (Var x) e1) (If (Leq e1 e2) (Seq c (For (Var x) (Som e1 (Num 1)) e2 c)) (Skip)), s)
+
+
 interpretC :: (CExp,Estado) -> (CExp,Estado)
 interpretC (c,s) = if isFinalC c then (c,s) else interpretC (cSmallStep (c,s))
 
@@ -181,9 +199,3 @@ exemplo2 = And (And TRUE (Not FALSE)) (And (Not (Not TRUE)) TRUE)
 
 -- *Main> interpretB (exemplo2,meuEstado)
 -- (TRUE,[("x",3),("y",0),("z",0)])
-
-
--- Repeat Until
-
-
--- For

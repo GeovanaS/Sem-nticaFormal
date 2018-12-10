@@ -102,11 +102,6 @@ bSmallStep (Ig (Num x) e2,s) = let(ef,s1) = aSmallStep(e2,s)
 bSmallStep (Ig e1 e2,s)  = let(en,sn) = aSmallStep(e1,s)
                            in(Ig en e2,sn)
 
--- Exemplo de entrada
--- *Main> bSmallStep(Ig (Num 6) (Som (Var "x") (Num 5)),[("x",6),("y",0),("z",0)])
--- *Main> bSmallStep(Ig (Num 8) (Num 6),[("x",0),("y",0)])                          
-
-
 -- Or3
 bSmallStep (Or FALSE b2,s )  = (b2,s)
 -- Or2
@@ -166,10 +161,6 @@ cSmallStep (Atrib (Var x) e,s) = let(en,sn) = aSmallStep(e,s)
 -- Dupla Atribuição                                 
 cSmallStep (DuplaAtrib  (Var x) (Var y) e1 e2,s) =  cSmallStep(Seq(Atrib (Var x) e1) (Atrib (Var y) e2), s) 
 
--- Exemplo de entrada
--- *Main> cSmallStep (DuplaAtrib  (Var "x") (Var "y") (Num 3) (Num 5),[("x",0),("y",0)])
-
-
 -- Repeat Until 
 cSmallStep (RepeatUntil c b,s) =  (Seq c (If b Skip (RepeatUntil c b)),s)
 
@@ -187,7 +178,6 @@ isFinalC Skip = True
 isFinalC _ = False 
 
 
-
 meuEstado :: Estado
 meuEstado = [("x",3), ("y",0), ("z",0)]
 
@@ -200,6 +190,30 @@ exemplo = Som (Num 3) (Som (Var "x") (Var "y"))
 
 exemplo2 :: BExp
 exemplo2 = And (And TRUE (Not FALSE)) (And (Not (Not TRUE)) TRUE)
+
+exemplo3 :: CExp
+exemplo3 = (RepeatUntil (Atrib(Var "z") (Som (Var "z") (Num 1))) (TRUE) )
+
+exemplo4 :: CExp
+exemplo4 = (DuplaAtrib (Var "y") (Var "x") (Num 4) (Num 10) )
+
+exemplo5 :: CExp
+exemplo5 = (For (Var "z") (Num 2) (Num 5)  (Atrib (Var "x") (Mul (Num 3) (Num 6))) )
+
+exemplo6 :: CExp
+exemplo6 = (Seq (DuplaAtrib (Var "z") (Var "x") (Num 3) (Num 20) )(If TRUE (Atrib (Var "y") (Num 15)) (Skip))) 
+
+exemplo7 :: BExp
+exemplo7 = (Ig (Num 7) (Num 3))
+
+exemplo9 :: BExp
+exemplo9 = Or (Or FALSE (Not FALSE)) (Or  (Not TRUE) FALSE)
+
+exemplo10 :: AExp
+exemplo10 = Mul (Num 23) (Mul (Var "z") (Var "x"))
+
+exemplo11 :: CExp
+exemplo11 = (If TRUE (Atrib(Var "x") (Num 9)) Skip)
 
 -- *Main> interpretB (exemplo2,meuEstado)
 -- (TRUE,[("x",3),("y",0),("z",0)])

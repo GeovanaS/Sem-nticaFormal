@@ -102,6 +102,11 @@ bSmallStep (Ig (Num x) e2,s) = let(ef,s1) = aSmallStep(e2,s)
 bSmallStep (Ig e1 e2,s)  = let(en,sn) = aSmallStep(e1,s)
                            in(Ig en e2,sn)
 
+-- Exemplo de entrada
+-- *Main> bSmallStep(Ig (Num 6) (Som (Var "x") (Num 5)),[("x",6),("y",0),("z",0)])
+-- *Main> bSmallStep(Ig (Num 8) (Num 6),[("x",0),("y",0)])                          
+
+
 -- Or3
 bSmallStep (Or FALSE b2,s )  = (b2,s)
 -- Or2
@@ -159,14 +164,14 @@ cSmallStep (Atrib (Var x) e,s) = let(en,sn) = aSmallStep(e,s)
                                  in(Atrib (Var x) en,sn)
 
 -- Dupla Atribuição                                 
-cSmallStep (DuplaAtrib  (Var x) (Var y) e1 e2,s) =  cSmallStep(Seq(Atrib (Var x) e1) (Atrib (Var y) e2), s) 
+cSmallStep (DuplaAtrib  (Var x) (Var y) e1 e2,s) =  (Seq(Atrib (Var x) e1) (Atrib (Var y) e2), s) 
 
 -- Repeat Until 
 cSmallStep (RepeatUntil c b,s) =  (Seq c (If b Skip (RepeatUntil c b)),s)
 
 
 -- For
-cSmallStep (For (Var x) e1 e2 c,s) =  cSmallStep(Seq(Atrib (Var x) e1) (If (Leq e1 e2) (Seq c (For (Var x) (Som e1 (Num 1)) e2 c)) (Skip)), s)
+cSmallStep (For (Var x) e1 e2 c,s) =  (Seq(Atrib (Var x) e1) (If (Leq e1 e2) (Skip) (Seq c (For (Var x) (Som e1 (Num 1)) e2 c))), s)
  
 
 
@@ -179,7 +184,7 @@ isFinalC _ = False
 
 
 meuEstado :: Estado
-meuEstado = [("x",3), ("y",0), ("z",0)]
+meuEstado = [("x",0), ("y",0), ("z",0)]
 
 
 exemplo :: AExp

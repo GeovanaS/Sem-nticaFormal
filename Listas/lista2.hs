@@ -18,7 +18,7 @@ vendas 1 = 11
 vendas 2 = 11
 vendas 3 = 22
 vendas 4 = 55
-vendas_ = 25
+vendas _ = 25
 
 maiorVenda :: Int -> Int 
 maiorVenda n 
